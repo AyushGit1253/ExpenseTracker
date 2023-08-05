@@ -96,32 +96,39 @@ function onEdit(e){
 
  function onLoad(){
 
-    for (let i=0;i<localStorage.length;i++){
+   const data= axios.get('https://crudcrud.com/api/3c978aa96d0a40c48e0e38924a0ff967/appointment')
+    .then((response)=>{
+        for(let i=0;i<response.data.length;i++){
+            const show=response.data[i]
+            const { exp, des, cat }=show
+    
+        var li=document.createElement('li')
+        li.className='list-group-item'
+        li.appendChild(document.createTextNode(exp + '-' + des + '-' + cat)) 
+    
+        var btn=document.createElement('button') 
+        btn.className='btn btn-danger btn-sm float-right delete'
+        btn.innerHTML='DeleteExpense'
+        li.appendChild(btn)
+    
+        var btnE=document.createElement('button')
+        btnE.className='btn btn-primary btn-sm float-right edit'
+        btnE.innerHTML='EditExpense'
+        li.appendChild(btnE) 
+    
+    
+        userItem.appendChild(li)
+    
+        btn.addEventListener('click',onDelete)
+        btnE.addEventListener('click',onEdit)
+    
+        }
+    }).catch(err=> console.log(err))
+
+   /*  for (let i=0;i<localStorage.length;i++){
         const des=localStorage.key(i)
-        const show=JSON.parse(localStorage.getItem(des))
-        const { exp, cat }=show
+        const show=JSON.parse(localStorage.getItem(des)) */
 
-    var li=document.createElement('li')
-    li.className='list-group-item'
-    li.appendChild(document.createTextNode(exp + '-' + des + '-' + cat)) 
-
-    var btn=document.createElement('button') 
-    btn.className='btn btn-danger btn-sm float-right delete'
-    btn.innerHTML='DeleteExpense'
-    li.appendChild(btn)
-
-    var btnE=document.createElement('button')
-    btnE.className='btn btn-primary btn-sm float-right edit'
-    btnE.innerHTML='EditExpense'
-    li.appendChild(btnE) 
-
-
-    userItem.appendChild(li)
-
-    btn.addEventListener('click',onDelete)
-    btnE.addEventListener('click',onEdit)
-
-    } 
 
 }  
 
