@@ -50,7 +50,7 @@ function onSubmit(e){
 
     //localStorage.setItem(obj.des,JSON.stringify(obj))
     //using axios
-    axios.post("https://crudcrud.com/api/3c978aa96d0a40c48e0e38924a0ff967/appointment",obj)
+    axios.post("https://crudcrud.com/api/0b84285aa58742cdba0456aed9979da3",obj)
     .then((response)=>{
         console.log(response.data)
     })
@@ -63,18 +63,29 @@ function onSubmit(e){
 
 }
 
-function onDelete(e){
+ function onDelete(e){
     e.preventDefault()
 
     if(e.target.classList.contains('delete')){
         if(confirm('Are you sure')){
             var li=e.target.parentElement
-            var desc=li.textContent.split('-')[1]
-            userItem.removeChild(li)
-            localStorage.removeItem(desc)
+            const userId = li.getAttribute('data-userid');
+            
+             axios.delete(`https://crudcrud.com/api/84a4bb3d59574bc691d545408aad3161/appointment/${userId}`)
+            .then(() => {
+                // Remove the deleted user detail from the website
+                
+                 userItem.removeChild(li)
+            })
+            .catch((err) => console.log(err));
+            })
+            
+            /* var desc=li.textContent.split('-')[1]
+           
+            localStorage.removeItem(desc) */
         }
     }
-}
+} 
 
 
 
@@ -96,7 +107,7 @@ function onEdit(e){
 
  function onLoad(){
 
-   const data= axios.get('https://crudcrud.com/api/3c978aa96d0a40c48e0e38924a0ff967/appointment')
+   const data= axios.get("https://crudcrud.com/api/0b84285aa58742cdba0456aed9979da3/appointment")
     .then((response)=>{
         for(let i=0;i<response.data.length;i++){
             const show=response.data[i]
